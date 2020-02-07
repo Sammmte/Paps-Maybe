@@ -1,0 +1,16 @@
+{
+  "name": "paps",
+  "version": "1.0.0-unity",
+  "displayName": "Paps CORE",
+  "unity": "2019.2",
+  "description": "Paps core functionalities",
+  "keywords": [
+	"c#",
+	"paps",
+	"unity"
+  ],
+  "author": {
+	"name": "Santiago Perez"
+  },
+  "homepage": "https://github.com/Sammmte/Paps"
+}
