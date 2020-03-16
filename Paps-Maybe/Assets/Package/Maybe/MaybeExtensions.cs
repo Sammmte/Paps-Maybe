@@ -36,7 +36,15 @@ namespace Paps.Maybe
             return ToMaybeEmptyIfMatches(value, nothingValue, EqualityComparer<T>.Default);
         }
 
-        
+        public static bool IsNothing<T>(this Maybe<T> maybe)
+        {
+            return maybe.HasValue == false;
+        }
+
+        public static bool IsSomething<T>(this Maybe<T> maybe)
+        {
+            return maybe.HasValue;
+        }
     }
 
 }

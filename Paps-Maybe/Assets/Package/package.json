@@ -1,16 +1,17 @@
 {
-  "name": "paps",
-  "version": "1.0.0-unity",
-  "displayName": "Paps CORE",
+  "name": "paps.maybe",
+  "version": "0.0.1-unity",
+  "displayName": "Paps Maybe",
   "unity": "2019.2",
-  "description": "Paps core functionalities",
+  "description": "Maybe object and related utilities in c#",
   "keywords": [
-	"c#",
-	"paps",
-	"unity"
+    "c#",
+    "paps",
+    "unity",
+    "maybe"
   ],
   "author": {
-	"name": "Santiago Perez"
+    "name": "Santiago Perez"
   },
-  "homepage": "https://github.com/Sammmte/Paps"
+  "homepage": "https://github.com/Sammmte/Paps-Maybe"
 }
