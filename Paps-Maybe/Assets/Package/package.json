@@ -1,9 +1,10 @@
 {
   "name": "paps.maybe",
-  "version": "0.0.2-unity",
+  "version": "0.0.3",
   "displayName": "Paps Maybe",
   "unity": "2019.2",
   "description": "Maybe object and related utilities in c#",
+  "licence": "WTFPL",
   "keywords": [
     "c#",
     "paps",
