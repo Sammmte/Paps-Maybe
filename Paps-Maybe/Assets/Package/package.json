@@ -1,6 +1,6 @@
 {
   "name": "paps.maybe",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "displayName": "Paps Maybe",
   "unity": "2019.2",
   "description": "Maybe object and related utilities in c#",
