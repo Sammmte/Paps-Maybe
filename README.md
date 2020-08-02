@@ -52,3 +52,7 @@ void DoSomethingIfHasValue(Maybe<int> maybe)
         .OrElse(() => DoSomethingElse()); //DoSomethingElse will not execute if it has value
 }
 ```
+
+## License
+
+[MIT License](https://github.com/Sammmte/Paps-Maybe/blob/master/Paps-Maybe/Assets/Maybe/LICENSE.md)
