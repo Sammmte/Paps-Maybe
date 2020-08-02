@@ -1,73 +1,54 @@
 # Paps Maybe
 
-Maybe monads for c#.
+## What is it?
 
-### Including this package on your Unity Project
+Paps Maybe is just another implementation of Maybe Monads in c#.
 
-Open the "Packages" folder inside your project folder. Open the manifest.json, you should have something like this:
+## For what purpose?
 
-```json
+Prevent null on reference types and default() on value types. Maybes helps handle the lack of value in a expressive way.
+
+## How to install it
+1. The package is available on the [openupm registry](https://openupm.com/packages/paps.maybe/).
+```
+openupm add paps.maybe
+```
+
+## How to use it
+
+### Anything can be a Maybe
+
+```csharp
+void SomeMethod(SomeClass probablyNullObject)
 {
-   "dependencies": {
-        "com.unity.some-package" : "1.0.0",
-        "com.unity.some-other-package" : "1.0.0"
-        //other packages...
-    }
+    var maybe = probablyNullObject.ToMaybe();
+
+    maybe.Do(value => Debug.Log("If you see this, the value was not null!"));
 }
 ```
 
-This "dependencies" json object represents the package key values (key: package name, value: package version) of all packages your project depends on.
+### Use its operators
 
-First you need to add a "scopedRegistries" json object with the following data:
-
-```json
-"scopedRegistries": [
-    {
-      "name": "Any name should fit",
-      "url": "https://registry.npmjs.org/",
-      "scopes": [
-        "paps"
-      ]
-    }
-  ]
-```
-
-The "url" field represents the url where Paps Maybe packages is hosted.
-
-the "scopes" field represents the permitted package "namespaces". For example if you want to use two packages with names "pepe.awesome-feature" and "pepe.fantastic-feature", you could write both names in the "scopes" object, or simply write "pepe".
-
-For more information about adding custom packages to your unity project, [read unity's documentation here](https://docs.unity3d.com/Manual/CustomPackages.html). Aaaand [here](https://docs.unity3d.com/Manual/upm-manifestPkg.html)
-
-Finally you must add this package dependency to your project in the "dependencies" object:
-
-```json
+```csharp
+Maybe<int> SomeMethod(int myValueIKnowIsInvalid)
 {
-    "dependencies": {
-        "com.unity.some-package" : "1.0.0",
-        "com.unity.some-other-package" : "1.0.0",
-        "paps.maybe" : "1.0.0-unity" //other the version you want
-      }
+    return myValueIKnowIsInvalid.AsNothing();
 }
-```
 
-Your manifest.json file should look like this:
-
-```json
+Maybe<int> SomeMethod(int myValueImNotSureIsInvalid)
 {
-  "scopedRegistries": [
-    {
-      "name": "Any name should fit",
-      "url": "https://registry.npmjs.org/",
-      "scopes": [
-        "paps"
-      ]
-    }
-  ],
+    return myValueImNotSureIsInvalid.AsNothingWhen(() => myValueImNotSureIsInvalid < 0);
+}
 
-  "dependencies": {
-    "com.unity.some-package" : "1.0.0",
-    "com.unity.some-other-package" : "1.0.0",
-    "paps.maybe": "1.0.0-unity" //other the version you want
-  }
+int SomeMethod(Maybe<int> myMaybeValueWhichICanDefault)
+{
+    return myMaybeValueWhichICanDefault.GetOrDefault(someOtherDefaultValue);
+}
+
+void DoSomethingIfHasValue(Maybe<int> maybe)
+{
+    //DoSomething will not execute if it does not has value
+    maybe.Do(() => DoSomething())
+        .OrElse(() => DoSomethingElse()); //DoSomethingElse will not execute if it has value
 }
 ```
