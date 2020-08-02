@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Paps.Maybe;
+using NSubstitute;
 
 namespace Tests
 {
@@ -23,45 +24,67 @@ namespace Tests
         }
 
         [Test]
-        public void Get_Or_Else()
+        public void Return_Value_Or_Default()
         {
             Maybe<string> maybe = Maybe<string>.Nothing;
 
             string hello = "hello";
 
-            Assert.AreEqual(hello, maybe.GetOrElse(() => hello));
+            Assert.AreEqual(hello, maybe.GetOrDefault(hello));
         }
 
         [Test]
-        public void Return_Empty_If_Value_If_Is_Null()
+        public void Execute_Action_When_Has_Value()
         {
-            string someString = null;
+            //Given
+            string someValue = "value";
+            var action = Substitute.For<Action<string>>();
 
-            Maybe<string> maybe1 = someString.ToMaybeEmptyIfNull();
+            //When
+            someValue.ToMaybe().Do(action);
 
-            Assert.IsFalse(maybe1.HasValue);
-
-            string someOtherString = "hello";
-
-            Maybe<string> maybe2 = someOtherString.ToMaybeEmptyIfNull();
-
-            Assert.IsTrue(maybe2.HasValue);
+            //Then
+            action.Received(1).Invoke(someValue);
         }
 
         [Test]
-        public void Return_Empty_If_Value_Is_Matches_Some_Value()
+        public void Execute_Action_When_Does_Not_Has_Value()
         {
-            string nothingValue = "nothing";
+            //Given
+            string someValue = null;
+            var action = Substitute.For<Action>();
 
-            Maybe<string> maybe1 = nothingValue.ToMaybeEmptyIfMatches(nothingValue);
+            //When
+            someValue.ToMaybe().OrElse(action);
 
-            Assert.IsFalse(maybe1.HasValue);
+            //Then
+            action.Received(1).Invoke();
+        }
 
-            string relevantValue = "relevant";
+        [Test]
+        public void Create_Nothing_When_Condition_Returns_True()
+        {
+            //Given
+            string someValue = "value";
 
-            Maybe<string> maybe2 = relevantValue.ToMaybeEmptyIfMatches(nothingValue);
+            //When
+            var maybe = someValue.AsNothingWhen(() => true);
 
-            Assert.IsTrue(maybe2.HasValue);
+            //Then
+            Assert.That(maybe.IsNothing(), "Is nothing");
+        }
+
+        [Test]
+        public void Return_Value_As_Maybe_When_Condition_Returns_False()
+        {
+            //Given
+            string someValue = "value";
+
+            //When
+            var maybe = someValue.AsNothingWhen(() => false);
+
+            //Then
+            Assert.That(maybe.IsSomething(), "Is something");
         }
     }
 }

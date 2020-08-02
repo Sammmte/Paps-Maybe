@@ -27,7 +27,12 @@ namespace Paps.Maybe
         public Maybe(T value, IEqualityComparer<T> equalityComparer)
         {
             _equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
-            HasValue = true;
+
+            if (value != null)
+                HasValue = true;
+            else
+                HasValue = false;
+
             _value = value;
             _hashCode = GenerateHashCode(HasValue, _value, _equalityComparer);
         }
@@ -88,5 +93,10 @@ namespace Paps.Maybe
         }
 
         public static Maybe<T> Nothing => new Maybe<T>();
+
+        public static implicit operator Maybe<T>(T value)
+        {
+            return new Maybe<T>(value);
+        }
     }
 }

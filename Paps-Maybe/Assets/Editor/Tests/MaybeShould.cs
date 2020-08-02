@@ -70,5 +70,15 @@ namespace Tests
 
             Assert.AreEqual(maybe1.GetHashCode(), maybe2.GetHashCode());
         }
+
+        [Test]
+        public void Return_Empty_When_Value_Is_Null()
+        {
+            string someString = null;
+
+            Maybe<string> maybe1 = new Maybe<string>(someString);
+
+            Assert.IsFalse(maybe1.HasValue);
+        }
     }
 }
